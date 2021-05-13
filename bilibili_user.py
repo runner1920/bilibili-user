@@ -50,7 +50,7 @@ urls = []
 
 
 # Please change the range data by yourself.
-for m in range(5214, 5215):
+for m in range(5210, 5211):
 
     for i in range(m * 100, (m + 1) * 100):
         url = 'https://space.bilibili.com/' + str(i)
@@ -71,12 +71,12 @@ for m in range(5214, 5215):
 
         #使用post会报错 (2021/5/2)
         jscontent = requests \
-          .session() \
-          .get('https://api.bilibili.com/x/space/acc/info?mid=%s&jsonp=jsonp' % mid,
-                headers=head,
-                data=payload
-                ) \
-          .text
+            .session() \
+            .get('https://api.bilibili.com/x/space/acc/info?mid=%s&jsonp=jsonp' % mid,
+                 headers=head,
+                 data=payload
+                 ) \
+            .text
 
         time2 = time.time()
         try:
@@ -122,7 +122,7 @@ for m in range(5214, 5215):
                     print(jsDict)
                     # Please write your MySQL's information.
                     conn = pymysql.connect(
-                        host='localhost', user='root', passwd='123456', db='bilibili', charset='utf8')
+                        host='192.168.60.200', user='root', passwd='admin123', db='bilibili', charset='utf8')
                     cur = conn.cursor()
                     cur.execute('INSERT INTO bilibili_user_info(mid, name, sex, rank, face, regtime, \
                                 birthday, sign, level, OfficialVerifyType, OfficialVerifyDesc, vipType, vipStatus, \
@@ -148,6 +148,6 @@ if __name__ == "__main__":
         results = pool.map(getsource, urls)
     except Exception as e:
         print(e)
- 
+
     pool.close()
     pool.join()
