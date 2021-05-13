@@ -142,12 +142,12 @@ for m in range(5210, 5211):
             print(e)
             pass
 
-if __name__ == "__main__":
-    pool = ThreadPool(1)
-    try:
-        results = pool.map(getsource, urls)
-    except Exception as e:
-        print(e)
-
-    pool.close()
-    pool.join()
+# if __name__ == "__main__":
+#     pool = ThreadPool(1)
+#     try:
+#         results = pool.map(getsource, urls)
+#     except Exception as e:
+#         print(e)
+#
+#     pool.close()
+#     pool.join()

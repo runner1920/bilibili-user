@@ -9,6 +9,7 @@ import datetime
 import time
 import re
 import random
+import openpyxl
 from imp import reload
 from multiprocessing.dummy import Pool as ThreadPool
 
@@ -54,7 +55,9 @@ time1 = time.time()
 
 urls = []
 maxPage = 2100
+
 companyList = set()
+
 
 def getsource(page):
     payload = {
@@ -74,21 +77,27 @@ def getsource(page):
         patter = re.compile('认证委托人 ：[\u4e00-\u9fa5]{5,30}')
         companys = patter.findall(jscontent)
         print(companys, page)
-        conn = pymysql.connect(
-            host='192.168.60.200', user='root', passwd='admin123', db='bilibili', charset='utf8')
-        cur = conn.cursor()
         for companyName in companys:
-            cur.execute('INSERT INTO company(company_name, page_num) \
-                        VALUES ("%s","%d")'
-                        %
-                        (companyName.replace('认证委托人 ：', ''), page))
-        conn.commit()
+            companyList.add(companyName.replace('认证委托人 ：', ''))
     else:
         print('数据错误')
+        return
 
 
-for pageNum in range(1, 1000):
-    t = random.randint(3, 5)
-    print('休眠时间', t)
-    time.sleep(t)
-    getsource(pageNum)
+if __name__ == "__main__":
+    for pageNum in range(7, 17):
+        t = random.randint(3, 5)
+        print('休眠时间', str(t) + '秒', '数据页数', pageNum)
+        time.sleep(t)
+        getsource(pageNum)
+        # 每10页写入excel
+        if pageNum % 3 == 0:
+            # 写入excel
+            from openpyxl import Workbook
+            wb = Workbook()
+            ws = wb.active
+            ws.append(['公司名称'])
+            for companyName in companyList:
+                ws.append([companyName])
+            wb.save('D:/公司数据第' + str(pageNum) + '条.xlsx')
+            companyList = set()
