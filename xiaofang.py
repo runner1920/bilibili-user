@@ -70,7 +70,7 @@ def getsource(page):
         companys = patter.findall(jscontent)
         print(companys, page)
         conn = pymysql.connect(
-            host='192.168.60.201', user='root', passwd='admin123', db='bilibili', charset='utf8')
+            host='192.168.60.200', user='root', passwd='admin123', db='bilibili', charset='utf8')
         cur = conn.cursor()
         for companyName in companys:
             cur.execute('INSERT INTO company(company_name, page_num) \
@@ -82,7 +82,7 @@ def getsource(page):
         print('数据错误')
 
 
-for pageNum in range(8000, 8010):
+for pageNum in range(11254, 15000):
     t = random.randint(3, 5)
     print('休眠时间', t)
     time.sleep(t)
