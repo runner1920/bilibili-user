@@ -82,7 +82,7 @@ def getsource(page):
         print('数据错误')
 
 
-for pageNum in range(11254, 15000):
+for pageNum in range(16772, 20000):
     t = random.randint(3, 5)
     print('休眠时间', t)
     time.sleep(t)
