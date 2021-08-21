@@ -27,7 +27,7 @@ for pageNum in range(0, 2000):
     cur.execute('INSERT INTO t_card_info(card_no, card_pwd) \
                         VALUES ("%s","%s")'
                 %
-                ("6100"+str(cardNo), cardPwd))
+                ("6100630686"+str(cardNo), cardPwd))
     startNum = startNum + random.randint(10,20)
 
 conn.commit()
