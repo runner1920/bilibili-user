@@ -53,9 +53,11 @@ sortDict = {
     "组装": 9,
     "保洁": 10,
     "仓库": 11,
+    "配料": 12,
+    "搅拌": 13
 }
 
-file_name = 'D:/example2.xlsx'
+file_name = 'D:/example4.xlsx'
 
 if __name__ == "__main__":
     xlApp = Dispatch("Excel.Application")
@@ -90,7 +92,7 @@ if __name__ == "__main__":
                     personTime['name'] = name.value.strip()
                     personTime['num'] = ''
                     personTime['order'] = sortDict[postDict[name.value]]
-                    if int(sheet['I'+str(name.row)].value) == 0:
+                    if sheet['I'+str(name.row)].value is None or int(sheet['I'+str(name.row)].value) == 0:
                         personTime['time'] = sheet['G'+str(name.row)].value
                     else:
                         # personTime['time'] = int(sheet['I'+str(name.row)].value)/60
@@ -107,12 +109,17 @@ if __name__ == "__main__":
     #     print(key, list(group))
 
     #输出excel
-    from openpyxl import Workbook
-    wb = Workbook()
-    ws = wb.active
+    # from openpyxl import Workbook
+    # wb = Workbook()
+    # ws = wb.active
+
+    # ws = wb.create_sheet('总表2')
+    ws = wb['总表']
     title = ['序号', '工号', '姓名', '部门', '岗位', '入职日期', '离职日期', '工时类别', '工时夜班']
     title.extend(timeSet)
-    ws.append(title)
+    print('总行数' + str(ws.max_row))
+    maxRow = ws.max_row
+    # ws.append(title)
     for key, group in name_group:
         nameTimeList = list(group)
         nameSet.add(key)
@@ -136,20 +143,18 @@ if __name__ == "__main__":
     num = 1
     alignment_center = Alignment(horizontal='center', vertical='center')
     print('总人数={}'.format(len(nameSet)))
+    cellList = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+
     for key in nameSet:
-        ws.merge_cells('A{}:A{}'.format(2*num, 2*num+1))
-        ws.merge_cells('B{}:B{}'.format(2*num, 2*num+1))
-        ws.merge_cells('C{}:C{}'.format(2*num, 2*num+1))
-        ws.merge_cells('D{}:D{}'.format(2*num, 2*num+1))
-        ws.merge_cells('E{}:E{}'.format(2*num, 2*num+1))
-        ws.merge_cells('F{}:F{}'.format(2*num, 2*num+1))
-        ws.merge_cells('G{}:G{}'.format(2*num, 2*num+1))
-        ws.merge_cells('H{}:H{}'.format(2*num, 2*num+1))
+        for c in cellList:
+            ws.merge_cells((c+'{}:'+c+'{}').format(2*num+maxRow, 2*num+maxRow+1))
         num = num + 1
 
-    for row in ws.iter_rows():
-        for cell in row:
-            cell.alignment = alignment_center
-    wb.save('D:/汇总数据3.xlsx')
+    # for row in ws.iter_rows():
+    #     for cell in row:
+    #         cell.alignment = alignment_center
+    # wb.save('D:/汇总数据3.xlsx')
+    wb.save(file_name)
+
 
 
