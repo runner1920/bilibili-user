@@ -12,7 +12,7 @@ def getRandom():
     return str
 
 conn = pymysql.connect(
-    host='192.168.60.201', user='root', passwd='admin123', db='bilibili', charset='utf8')
+    host='192.168.1.61', user='root', passwd='admin123', db='bilibili', charset='utf8')
 cur = conn.cursor()
 
 startNum = 100123

@@ -40,7 +40,7 @@ if __name__ == "__main__":
     # sheets = wb.sheetnames
     # print(sheets, type(sheets))
     for sheet in wb:
-        if sheet.title.__contains__("Sheet"):
+        if not sheet.title.__contains__("."):
             print(sheet.title)
             continue
         else:
